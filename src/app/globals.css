@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Clothbook design tokens — always reference these, never raw hex
+   in components (use var(--token) or Tailwind theme mapping below).
+   ------------------------------------------------------------------ */
+:root {
+  --ink: #211d1a;
+  --calico: #f5efe4;
+  --calico-raised: #faf6ee;
+  --indigo: #2e4374;
+  --indigo-deep: #243658;
+  --thread-gold: #c9973a;
+  --terracotta-clay: #b65c3d;
+  --thread-grey: #8b837a;
+
+  /* Primary brand accent — Claude Code coral/orange. Highlights, CTAs, eyebrows. */
+  --brand: #d97757;
+  --brand-deep: #c15f3c;
+  --brand-soft: #e7b199;
+
+  --background: var(--calico);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-calico: var(--calico);
+  --color-indigo: var(--indigo);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-thread-gold: var(--thread-gold);
+  --color-terracotta-clay: var(--terracotta-clay);
+  --color-thread-grey: var(--thread-grey);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* App-like: kill sideways drift and pull-to-refresh / rubber-band bounce.
+     `clip` (not `hidden`) so the sticky header keeps working. */
+  overflow-x: clip;
+  overscroll-behavior-y: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--calico);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  /* Nothing may push the layout wider than the screen on mobile */
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+}
+
+/* Form controls — shared focus + readability for low-end Android */
+.field-input {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  background: var(--calico-raised);
+  padding: 0.625rem 0.875rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field-input::placeholder {
+  color: var(--thread-grey);
+  font-weight: 400;
+}
+
+.field-input:focus-visible {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--indigo) 25%, transparent);
+}
+
+/* Avoid thin text at small sizes */
+@media (max-width: 480px) {
+  body {
+    font-weight: 400;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Thread line static fallback (no JS / before hydration)
+   Progressive enhancement: React ThreadLine overlays the animated path.
+   ------------------------------------------------------------------ */
+.thread-fallback {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 14px;
+  z-index: 5;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--indigo) 55%, transparent),
+    color-mix(in srgb, var(--thread-gold) 70%, transparent) 45%,
+    color-mix(in srgb, var(--indigo) 45%, transparent)
+  );
+  border-radius: 999px;
+  opacity: 0.55;
+}
+
+@media (min-width: 768px) {
+  .thread-fallback {
+    left: 42px;
+  }
+}
+
+/* Hide static spine only after the animated ThreadLine mounts (no html class mutation) */
+:has(.thread-live) .thread-fallback {
+  display: none;
+}
+
+/* 360px safety: keep content clear of left spine */
+@media (max-width: 380px) {
+  .thread-fallback {
+    left: 10px;
+    width: 1.5px;
+  }
+}
