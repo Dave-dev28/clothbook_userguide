@@ -10,31 +10,30 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden border-b border-[var(--ink)]/8"
+      className="relative isolate overflow-hidden border-b border-[var(--ink)]/8"
     >
       {/*
-        Cinematic full-bleed clip sits at the very top of the page.
-        Real assets (TODO David):
-        /public/media/hero.mp4  (<2.5MB, h.264, <15s)
-        /public/media/hero.webm
-        /public/media/hero-poster.jpg
+        Clip sits at the very top, shown at its natural 16:9 so the whole
+        scene (tailor, sewing machine, fabrics) is visible — no zoom-crop.
+        Real asset: /public/media/hero.mp4  (<2.5MB, h.264, <15s)
       */}
-      <HeroVideo variant="bleed" ariaLabel={t.hero.videoAria} />
+      <div className="relative w-full">
+        <HeroVideo variant="bleed" ariaLabel={t.hero.videoAria} />
 
-      {/* Top scrim keeps the translucent header legible over bright footage */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-40 bg-gradient-to-b from-[var(--ink)]/30 to-transparent"
-      />
-      {/* Bottom fade: the image dissolves into the calico page background,
-          and the CTAs overlay this fade partly on top of the footage. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[70%] bg-gradient-to-t from-[var(--calico)] from-25% via-[var(--calico)]/85 to-transparent"
-      />
+        {/* Top scrim keeps the translucent header legible over bright footage */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-24 bg-gradient-to-b from-[var(--ink)]/35 to-transparent"
+        />
+        {/* Bottom edge dissolves into the calico page background */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-28 bg-gradient-to-b from-transparent to-[var(--calico)]"
+        />
+      </div>
 
-      {/* Text + CTAs paint over the fade at the bottom edge */}
-      <div className="relative z-20 mx-auto w-full max-w-5xl px-4 pb-12 pl-11 pt-24 sm:px-6 sm:pb-16 sm:pl-16 md:pb-20 md:pl-20">
+      {/* Text + CTAs sit just below the clip, tucked slightly under its fade */}
+      <div className="relative z-20 mx-auto -mt-6 w-full max-w-5xl px-4 pb-12 pl-11 sm:-mt-8 sm:px-6 sm:pb-16 sm:pl-16 md:pb-20 md:pl-20">
         <div className="max-w-xl">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--brand-deep)]">
             Clothbook · Iwe Aso

@@ -76,7 +76,7 @@ export function HeroVideo({
       ref={wrapRef}
       className={
         bleed
-          ? "absolute inset-0 h-full w-full bg-[var(--ink)]"
+          ? "relative w-full bg-[var(--ink)]"
           : "relative overflow-hidden rounded-2xl border border-[var(--ink)]/10 bg-[var(--ink)] shadow-lg"
       }
     >
@@ -84,7 +84,7 @@ export function HeroVideo({
         ref={videoRef}
         className={
           bleed
-            ? "relative z-[1] h-full w-full object-cover"
+            ? "relative z-[1] block aspect-video w-full object-cover"
             : "relative z-[1] aspect-[4/5] w-full object-cover sm:aspect-video"
         }
         muted
